@@ -4,8 +4,8 @@ export const TL = new THREE.TextureLoader();
 
 export const CARD_WIDTH = 655;
 export const CARD_HEIGHT = 930;
-export const TEXTURE_CARD_BACK = TL.load('src/images/card_back.png');
-export const TEXTURE_TRANSPARENT = TL.load('src/images/transparent.png');
+export const TEXTURE_CARD_BACK = TL.load('src/img/card_back.png');
+export const TEXTURE_TRANSPARENT = TL.load('src/img/transparent.png');
 
 export const MATERIAL_TRANSPARENT = new THREE.MeshBasicMaterial({ map: TEXTURE_TRANSPARENT, transparent: true })
 
@@ -29,7 +29,7 @@ export async function constructCards(): Promise<THREE.Mesh<THREE.BoxGeometry, TH
 
         SUITS.forEach(suit => {
             VALUES.forEach(value => {
-                TL.load(`src/images/${suit}/${value}.png`, texture => {
+                TL.load(`src/img/${suit}/${value}.png`, texture => {
                     const mats = _mats(texture);
             
                     const card = new THREE.Mesh(geom, mats);
