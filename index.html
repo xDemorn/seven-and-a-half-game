@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>7 ½</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lacquer&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./src/style.css">
+  </head>
+  <body>
+    <script type="module" src="/src/main.ts"></script>
+
+    <!-- <div id="actions">
+      <button id="get-card">get card</button>
+      <button id="end-turn">end turn</button>
+    </div> -->
+
+    <div id="game-intro">
+      <div class="fill"></div>
+
+      <div class="container">
+        <span style="animation-delay: 750ms;">Welcome</span>
+      </div>
+
+      <div class="container">
+        <span style="animation-delay: 1250ms;">to</span>
+      </div>
+
+      <div class="container">
+        <span style="animation-delay: 1750ms;">7</span>
+        <span style="animation-delay: 2250ms;">1/2</span>
+      </div>
+
+      <div class="container">
+        <span style="animation-delay: 2750ms;">in</span>
+        <span style="animation-delay: 3250ms;">space!</span>
+      </div>
+
+      <div class="container">
+        <button id="btn-enter" style="animation-delay: 3500ms;">ENTER</button>
+      </div>
+
+      <div class="fill"></div>
+    </div>
+
+    <dialog id="player-information">
+      <header>
+        <div>
+          <span class="title">Welcome player!</span>
+          <span class="subtitle">Enter your information to play.</span>
+        </div>
+        <!-- <button class="close">&times;</button> -->
+      </header>
+      <div class="content">
+        <form>
+          <div class="input">
+            <label for="player_name">Name</label>
+            <input value="Dean Winchester" type="text" name="player_name" id="player_name" placeholder="Dean Winchester...">
+          </div>
+
+          <div class="input">
+            <label for="money">Money</label>
+            <input value="100" type="number" name="money" id="money" placeholder="100...">
+          </div>
+        </form>
+      </div>
+      <footer>
+        <button id="btn-play">PLAY</button>
+      </footer>
+    </dialog>
+
+    <div id="game-values">
+      <div id="player-data" class="player-info">
+        <span class="name">John Doe</span>
+        <span class="money">100 €</span>
+        <span class="score">0 pts</span>
+      </div>
+
+      <div id="dealer-data" class="player-info">
+        <span class="name">Dealer</span>
+        <span class="score">0 pts</span>
+      </div>
+
+      <hr>
+
+      <div class="actions">
+        <button id="btn-start-round">start round</button>
+        <button id="btn-end-player-turn" disabled>end my turn</button>
+      </div>
+    </div>
+
+    <div id="bet-container">
+      <label for="bet-amount">How much do you want to bet?</label>
+      <input type="number" name="bet-amount" id="bet-amount" value="10" min="0">
+      <button id="btn-bet">bet</button>
+    </div>
+
+  </body>
+</html>
