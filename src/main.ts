@@ -156,6 +156,8 @@ $btnPlay.addEventListener('click', () => {
 });
 
 $btnStartRound.addEventListener('click', () => {
+  if (config.player.money === 0) return;
+  
   $btnStartRound.disabled = true;
 
   $betContainer.classList.add('show');
