@@ -86,7 +86,7 @@ $stats.append(stats.dom);
 document.body.append($stats);
 
 const scene = new Scene();
-scene.background = utils.TL.load('./src/images/space.jpg');
+scene.background = utils.TL.load('./img/space.jpg');
 
 // LOADERS.gltf.load('src/models/tableRound.glb', gltf => {
 //   console.log('loaded the table')
