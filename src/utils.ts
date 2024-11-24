@@ -64,19 +64,14 @@ function _mats(texture: THREE.Texture) {
     ]
 }
 
-// const targetX = -.3;
-// let targetZ = -.06;
-// let targetCardPos = new THREE.Vector3(targetX, .0011, targetZ);
-// let targetDealerCardPos = new THREE.Vector3(targetX, .0011, targetZ);
-
 const targets_defaults = {
     player: {
         x: -.3,
         z: -.06
     },
     dealer: {
-        x: -.3,
-        z: -1
+        x: .05,
+        z: -.06
     }
 }
 

@@ -13,16 +13,11 @@ if (!WebGL.isWebGL2Available()) {
 const $ = (selector: string) => document.querySelector(selector);
 
 const {
-  TextureLoader,
   Scene,
   PerspectiveCamera,
   WebGLRenderer,
   MathUtils,
-  Mesh,
-  MeshBasicMaterial,
-  BoxGeometry,
   Vector2,
-  Vector3,
   Raycaster,
   CatmullRomCurve3
 } = THREE;
@@ -88,17 +83,10 @@ document.body.append($stats);
 const scene = new Scene();
 scene.background = utils.TL.load('/images/space.jpg');
 
-// LOADERS.gltf.load('src/models/tableRound.glb', gltf => {
-//   console.log('loaded the table')
-//   scene.add(gltf.scene);
-// }, undefined, err => console.error(err));
-
 const camera = new PerspectiveCamera(90, window.innerWidth / window.innerHeight, .1, 1000);
-camera.position.set(0, .4, .4);
+camera.position.set(0.0009017039767496994, 0.25818173406111466, 0.2617623812960668);
 
-(window as any).camera = camera;
-
-const renderer = new WebGLRenderer({ antialias: true });
+const renderer = new WebGLRenderer({ antialias: true, alpha: true });
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -107,20 +95,13 @@ renderer.setAnimationLoop(animate);
 document.body.appendChild( renderer.domElement );
 
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableZoom = true;
+controls.enableZoom = false;
+controls.enableRotate = false;
 
 // DEBUG
-const material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
-const points = [
-  new Vector3( 0, 0, 0 ),
-  new Vector3( 0, 10, 0 )
-];
-const geometry = new THREE.BufferGeometry().setFromPoints( points );
-scene.add( new THREE.Line( geometry, material ) );
-
 const plane = new THREE.Mesh(
-  new THREE.PlaneGeometry(.7, .25),
-  new THREE.MeshBasicMaterial({ color: 0xff0000, side: THREE.DoubleSide })
+  new THREE.PlaneGeometry(.7, .5),
+  new THREE.MeshBasicMaterial({ color: 0x242424, side: THREE.DoubleSide })
 );
 plane.rotateX(MathUtils.degToRad(90))
 scene.add(plane);
@@ -129,7 +110,7 @@ const card = new THREE.Mesh(new THREE.BoxGeometry(655 / 930, 1, .001), new THREE
 (window as any).card = card;
 // scene.add(card);
 // -.3  + (655 / 930 * .075) + .01
-card.position.set(-.3, .0011, -.06)
+card.position.set(.05, .0011, -.06)
 card.scale.set(.075, .075, 1);
 card.rotateX(MathUtils.degToRad(90))
 
@@ -218,7 +199,9 @@ document.addEventListener('click', event => {
   const intersects = raycaster.intersectObjects(scene.children, false);
 
   if (intersects.length > 0) {
-    if (intersects.some(obj => obj.object.userData.isCard)) giveCard('player');
+    const clickedCards = intersects.some(obj => obj.object.userData.isCard);
+    const notUsed = intersects.every(obj => !obj.object.userData.used);
+    if (clickedCards && notUsed) giveCard('player');
   }
 });
 
@@ -226,18 +209,16 @@ document.addEventListener('click', event => {
 
 // GAMEPLAY FUNCTIONS
 async function setupCards() {
-  console.time('construct cards');
   config.cards = await utils.constructCards().catch(err => {
     console.error(err);
 
     return [];
   });
-  console.timeEnd('construct cards');
 
   let lastY = .0011;
 
   config.cards.forEach(card => {
-    card.position.set(.3, lastY, -.075)
+    card.position.set(.3, lastY, -.2)
     card.rotateX(MathUtils.degToRad(90));
 
     scene.add(card);
@@ -247,7 +228,6 @@ async function setupCards() {
 }
 
 function animate(time: number) {
-  controls.update();
   stats.update();
 
   shouldAnimateCard(time);
@@ -266,6 +246,7 @@ function shouldAnimateCard(time: number) {
       config.animation.animate = false;
 
       config.animation.selectedCard.rotateY(MathUtils.degToRad(180));
+      config.animation.selectedCard.rotateZ(MathUtils.degToRad(180));
 
       const { value } = config.animation.selectedCard.userData;
 
@@ -288,19 +269,25 @@ function shouldAnimateCard(time: number) {
         startTime: null
       }
 
-      config.canSelectNextCard = true;
+      config.canSelectNextCard = config.turn === 'player';
 
       setTimeout(() => {
-        if (config.turn === 'player') {
-          if (config.player.score === WIN_SCORE) win();
-        } else {
-          console.log('checking result')
-  
-          if (config.dealer.score >= config.player.score) win();
-          else if (config.dealer.score > WIN_SCORE) lose();
-          else if (config.dealer.score < DEALER_MAX_SCORE) giveCard('dealer');
-        }
-      }, 500);
+        console.log(config.dealer.score, config.player.score)
+        
+        // setTimeout(() => {
+          if (config.turn === 'player') {
+            if (config.player.score === WIN_SCORE) win();
+            else if (config.player.score > WIN_SCORE) lose();
+          } else {
+            if (config.dealer.score < WIN_SCORE && config.dealer.score >= config.player.score) lose();
+            else if (config.dealer.score > WIN_SCORE) win();
+            else if (config.dealer.score <= DEALER_MAX_SCORE) giveCard('dealer');
+            else {
+              console.log('check socres again')
+            }
+          }
+        // }, 100);
+      }, 750);
     }
   }
 }
@@ -358,7 +345,7 @@ function giveCard(turn: 'player' | 'dealer') {
   const path = new CatmullRomCurve3(points);
 
   const geom = new THREE.BufferGeometry().setFromPoints(path.getPoints(75));
-  const mat = new THREE.LineBasicMaterial({ color: 0xff000000, transparent: true });
+  const mat = new THREE.LineBasicMaterial();
   const line = new THREE.Line(geom, mat);
 
   scene.add(line);
@@ -385,5 +372,3 @@ function getRandomCard() {
 
   return card;
 }
-
-function onDealerEnd() {}
