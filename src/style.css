@@ -1,0 +1,238 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+div#game-values {
+  position: absolute;
+  left: 4px;
+  top: 60px;
+  border: 1px solid lime;
+  translate: calc(-100% - 8px);
+  transition: translate 500ms cubic-bezier(0, 0, 0, 1.5);
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(2px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+
+  &.show {
+    translate: 0;
+  }
+
+  .player-info {
+    display: inherit;
+    flex-direction: inherit;
+
+    span:first-child {
+      text-decoration: underline;
+      font-size: 1.15em;
+      font-weight: 600;
+    }
+  }
+}
+
+div#bet-container {
+  position: absolute;
+  top: 4px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid lime;
+  border-radius: 4px;
+  padding: 8px;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(2px);
+  width: 250px;
+  left: calc(50% - 125px);
+  translate: 0 calc(-100% - 8px);
+  transition: translate 750ms cubic-bezier(0, 0, 0.15, 1.42);
+
+  &.show {
+    translate: 0;
+  }
+}
+
+div#actions {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  display: flex;
+  gap: 4px;
+}
+
+div#game-intro {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: opacity 500ms;
+
+  &.close {
+    opacity: 0;
+  }
+
+  div.fill {
+    flex: 1;
+    width: 100%;
+  }
+
+  div.container {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+
+    &:has(button) {
+      margin-top: 8px;
+    }
+
+    span {
+      font-family: "Lacquer", system-ui;
+      line-height: 1;
+      font-size: 4em;
+      text-align: center;
+      translate: 0 calc(-100% - 4px);
+      animation: slideIn 1s ease-in-out forwards, hueRotation 1s linear infinite;
+      background-image: linear-gradient(to right, rgb(247, 28, 28), rgb(76, 237, 12), rgb(0, 208, 255));
+      background-clip: text;
+      color: transparent;
+      user-select: none;
+    }
+
+    button {
+      animation-delay: 3500ms;
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 250ms;
+      opacity: 0;
+      animation: showOp 1s ease-in-out forwards;
+
+      &:hover {
+        border: 2px solid lime !important;
+        border-top: 2px solid transparent !important;
+        border-bottom: 2px solid transparent !important;
+        background: #3b3b3b;
+      }
+    }
+  }
+}
+
+dialog {
+  inset: 0;
+  padding: 12px;
+  background: rgba(255, 255, 255, .1);
+  backdrop-filter: blur(2px);
+  min-width: 450px;
+  /* display: flex; */
+  flex-direction: column;
+
+  &[open] {
+    display: flex;
+  }
+
+  header, footer {
+    height: 48px;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+
+    & > div {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+
+      .title {
+        font-size: 1.1em;
+        font-weight: 600;
+      }
+
+      .subtitle {
+        font-size: .9em;
+        font-weight: 300;
+      }
+    }
+
+    & > button {
+      height: 32px;
+      width: 32px;
+    }
+  }
+
+  div.content {
+    flex: 1;
+
+    form {
+      margin: 12px;
+
+      .input {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: stretch;
+          position: relative;
+      }
+    }
+  }
+}
+
+@keyframes slideIn {
+  to {
+    translate: 0;
+  }
+}
+
+@keyframes showOp {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hueRotation {
+  from {
+    filter: hue-rotate(0deg);
+  }
+
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}

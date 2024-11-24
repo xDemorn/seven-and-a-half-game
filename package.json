@@ -1,0 +1,19 @@
+{
+  "name": "seven-and-a-half",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "5.6.2",
+    "vite": "5.4.2"
+  },
+  "dependencies": {
+    "@types/three": "^0.170.0",
+    "three": "^0.170.0"
+  }
+}
