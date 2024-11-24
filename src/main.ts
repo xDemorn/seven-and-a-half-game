@@ -298,7 +298,7 @@ function shouldAnimateCard(time: number) {
   
           if (config.dealer.score >= config.player.score) win();
           else if (config.dealer.score > WIN_SCORE) lose();
-          else giveCard('dealer');
+          else if (config.dealer.score < DEALER_MAX_SCORE) giveCard('dealer');
         }
       }, 500);
     }
